@@ -1,0 +1,7 @@
+tmp
+node_modules
+npm-debug.log
+*.log
+.env
+process.json
+dist
