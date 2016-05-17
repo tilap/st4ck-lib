@@ -55,7 +55,7 @@ module.exports = class Service extends EventEmitter {
     return service;
   }
 
-  // User context --------------------------------------------------------------
+  // Context --------------------------------------------------------------
   setContext(key, value) {
     this.context[key] = value;
     return this;
@@ -67,6 +67,19 @@ module.exports = class Service extends EventEmitter {
 
   hasContext(key) {
     return this.context.hasOwnProperty(key);
+  }
+
+  // User context --------------------------------------------------------------
+  setContextUser(user) {
+    return this.setContext('user', user);
+  }
+
+  getContextUser() {
+    return this.getContext('user');
+  }
+
+  hasContextUser() {
+    return this.hasContext('user');
   }
 
   // Acl -----------------------------------------------------------------------
