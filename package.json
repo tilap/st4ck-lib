@@ -52,7 +52,7 @@
     "mongoose-paginate": "5.0.0",
     "mongoose-plugin-createdat": "1.0.0",
     "mongoose-plugin-updatedat": "1.0.0",
-    "st4ck-lib-apiresponse": "github:tilap/st4ck-lib-apiresponse#5b715a6bdcd1912bd5c52732192839bcf559154f",
+    "st4ck-lib-apiresponse": "github:tilap/st4ck-lib-apiresponse#568fdcb6c25d1ddd193a3ba4286a042a50c2074a",
     "winston": "2.2.0"
   }
 }

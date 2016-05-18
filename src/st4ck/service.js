@@ -62,7 +62,7 @@ module.exports = class Service extends EventEmitter {
   }
 
   getContext(key) {
-    return this.hasContext() ? this.context[key] : null;
+    return this.hasContext(key) ? this.context[key] : null;
   }
 
   hasContext(key) {
