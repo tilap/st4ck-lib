@@ -38,19 +38,14 @@ module.exports = function(config) {
         this.details = {};
 
         // Details setter
-        this.addDetail = ({ property = '', kind = '', message = '', name = errorClassname, value = '' } = {}) => {
+        this.addDetail = ({ property, kind = '', message = '', name = errorClassname, value = '', properties = {} } = {}) => {
           this.details[property] = {
             message,
             name,
             kind,
             path: property,
             value,
-            // properties: {
-            //   type,
-            //   message,
-            //   path: property,
-            //   value
-            // }
+            properties,
           };
         };
 

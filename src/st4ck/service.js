@@ -1,6 +1,6 @@
 /**
  * Service with:
- * - user context (setContextUser, getContextUser, hasContextUser)
+ * - context (setContext, getContext, hasContext)
  * - acl (setAcl, getAcl, hasAcl)
  * - logger (setLogger, getLogger, hasLogger)
  * - modelLoader (setModelLoader, getModelLoader, hasModelLoader, getModel)
@@ -11,7 +11,7 @@ const EventEmitter = require('events');
 module.exports = class Service extends EventEmitter {
   constructor() {
     super();
-    this.context = { user: null };
+    this.context = {};
     this.logger = null;
     this.acl = null;
     this.serviceFactory = null;
@@ -57,6 +57,11 @@ module.exports = class Service extends EventEmitter {
 
   // Context --------------------------------------------------------------
   setContext(key, value) {
+    if (this.hasContext(key) && this.getContext(key)!==value) {
+      this.emit('context:change', { key, previous: this.getContext(key), new: value } );
+    } else if (!this.hasContext(key)) {
+      this.emit('context:added', { key, value } );
+    }
     this.context[key] = value;
     return this;
   }
@@ -67,19 +72,6 @@ module.exports = class Service extends EventEmitter {
 
   hasContext(key) {
     return this.context.hasOwnProperty(key);
-  }
-
-  // User context --------------------------------------------------------------
-  setContextUser(user) {
-    return this.setContext('user', user);
-  }
-
-  getContextUser() {
-    return this.getContext('user');
-  }
-
-  hasContextUser() {
-    return this.hasContext('user');
   }
 
   // Acl -----------------------------------------------------------------------

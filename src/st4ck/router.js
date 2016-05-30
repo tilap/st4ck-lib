@@ -64,28 +64,6 @@ module.exports = class Router extends KoaRouter {
     return Object.assign(this.routesConfig, routesConfig);
   }
 
-  addDocumentation({
-    id = 'documentation.methods',
-    path = '/documentation/methods',
-    method = 'get',
-    description = 'Provide full api documentation',
-    returns = 'List of available mathods',
-  } = {}) {
-    this.routesConfig[id] = {
-      method,
-      description,
-      returns,
-      path,
-      dispatch: async (ctx, next) => {
-        Object.keys(this.routesConfig).forEach((name) => {
-          const { method = 'get', path = '', dataset = [], description = '', args = {} } = this.routesConfig[name];
-          ctx.apiResponse.addData({ name, description, method, path, args, dataset });
-        });
-      },
-    };
-    return this;
-  }
-
   init() {
     const router = this;
     Object.keys(this.routesConfig).forEach((name) => {

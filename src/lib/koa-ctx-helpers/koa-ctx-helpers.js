@@ -1,12 +1,12 @@
-const assert = require('assert');
-
 module.exports = class KoaCtxHelpers {
   constructor(ctx) {
     this.ctx = ctx;
   }
 
   assertBodyRequest() {
-    assert(this.ctx.request && this.ctx.request.hasOwnProperty('body'), 'Not a valid post request');
+    if (!this.ctx.request || !this.ctx.request.hasOwnProperty('body')) {
+      throw new Error('Not a valid post request');
+    }
   }
 
   getRequestBodies() {
@@ -20,7 +20,10 @@ module.exports = class KoaCtxHelpers {
   }
 
   getExistingRequestBodies(items) {
-    assert(items.constructor === Array, 'getExistingRequestBodies requires an Array as param');
+    if (items.constructor !== Array) {
+      throw new Error('getExistingRequestBodies requires an Array as param');
+    }
+
     let output = {};
     try {
       this.assertBodyRequest();
@@ -33,7 +36,9 @@ module.exports = class KoaCtxHelpers {
 
   getDefaultRequestBodies(items) {
     this.assertBodyRequest();
-    assert(items.constructor === Object, 'getDefaultRequestBodies requires an Object as param');
+    if (items.constructor !== Object) {
+      throw new Error('getDefaultRequestBodies requires an Object as param');
+    }
     let output = {};
     Object.keys(items).forEach((key) => {
       output[key] = this.getRequestBody(key, items[key]);
@@ -50,7 +55,9 @@ module.exports = class KoaCtxHelpers {
   }
 
   getQueriesIfExists(items) {
-    assert(items.constructor === Array, new Error('getQueryIfExists requires an Array as param'));
+    if (items.constructor !== Array) {
+      throw new Error('getQueryIfExists requires an Array as param');
+    }
     let output = {};
     items.filter((key) => this.ctx.query.hasOwnProperty(key)).forEach((k) => output[k] = this.ctx.query[k]);
     return output;

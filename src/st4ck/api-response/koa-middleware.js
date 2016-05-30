@@ -4,6 +4,19 @@ const renderer = require('./renderer');
 module.exports = function ({ contextKey = 'apiResponse', showStackTraceOnError = false, logger = console }) {
   return async (ctx, next) => {
     const apiResponse = new ApiResponse();
+    apiResponse.addErrorDetailSanitize((err) => {
+      if (err.properties) {
+        if (err.properties.kind && err.properties.kind != '') {
+          err.kind = err.properties.kind;
+        } else if (err.properties.type && err.properties.type != '') {
+          err.kind = err.properties.type;
+        } else if (!err.hasOwnProperty('kind')) {
+          err.kind = 'unknown';
+        }
+        delete err.properties;
+      }
+      return err;
+    })
     apiResponse.showStackTraceOnError = showStackTraceOnError;
     ctx[contextKey] = apiResponse;
 
